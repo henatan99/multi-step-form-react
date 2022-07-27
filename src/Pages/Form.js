@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
+import fieldsMapped from '../helpers/FormFields';
 
 import './Form.css';
 
 const formFieldsArr = [
-    {label: 'First Name *', placeholder: 'Your first name', name: 'first-name'},
-    {label: 'Last Name *', placeholder: 'Your last name', name: 'last-name'},
-    {label: 'Email *', placeholder: 'Your email address', name: 'email'},
-    {label: 'Gender *', placeholder: '', name: 'gender'},
+    {field: 'textInput', label: 'First Name *', placeholder: 'Your first name', name: 'first-name'},
+    {field: 'textInput', label: 'Last Name *', placeholder: 'Your last name', name: 'last-name'},
+    {field: 'textInput', label: 'Email *', placeholder: 'Your email address', name: 'email'},
+    {field: 'selectInput', label: 'Gender *', placeholder: '', name: 'gender', options: ['Male', 'Female']},
 ]
 
 const Form = () => {
@@ -21,7 +22,6 @@ const Form = () => {
         setFormFields(copyFields);
     } 
 
-       
     const handleOnBlur = (index) => {
         const copyFields = [...formFields];
         copyFields[index].focused = false; 
@@ -49,16 +49,14 @@ const Form = () => {
 
             <form className='formFields' onSubmit={handleSubmit(onSubmit)}>
                 {
-                    formFields.map((input, index) => {
+                    formFieldsArr.map((field, index) => {
+                        const fieldFunc = fieldsMapped[field.field];
                         return (
                           <>
-                            {input.focused && <label htmlFor={input.name}>{input.label}</label>}
-                            <input 
-                                placeholder={input.focused ? input.placeholder : input.label}
-                                {...register(`${input.name}`, { required: true })}
-                                onFocus={ () => handleFocus(index)}
-                                onBlur={ () => handleOnBlur(index)}
-                            />
+                            {
+                                fieldFunc({field: field, index: index, handleFocus: () => handleFocus(index), handleOnBlur: () => handleOnBlur(index) })
+                                // textInput(props.field, props.index, props.handleFocus, props.handleOnBlur),
+                            }
                           </>
                         )
                     })
