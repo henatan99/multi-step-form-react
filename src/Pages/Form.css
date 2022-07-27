@@ -1,0 +1,24 @@
+.formWrapper {
+    padding: 5%;
+    border: 1px solid;
+    /* background-color: red; */
+}
+
+.stepsNum {
+    display: flex;
+    flex-direction: row;
+}
+
+.stepsStr {
+    display: flex;
+    flex-direction: row;
+}
+
+.setpsStr > h3 {
+    /* width: 30%; */
+}
+
+.formFields {
+    display: flex;
+    flex-direction: column;
+}
